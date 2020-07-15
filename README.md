@@ -37,7 +37,7 @@ django框架帮我们封装了很多的组件, 帮助我们实现各种功能, �
 ./api 目录为用户自定义的接口页面，接口URL http://x.x.x.x/api
 ./log 目录为日志目录
 ./Python_Program 目录为自定义的第三方Python脚本的存放目录
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200715161112277.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3l0bHpxMDIyOA==,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200715214505492.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3l0bHpxMDIyOA==,size_16,color_FFFFFF,t_70)
 
 # 二、环境安装和准备
 ## 1、Windows+IIS+AD微软套件
@@ -94,7 +94,7 @@ pip install Django==3.0.8
 ### 1.1 添加新网站
 打开IIS管理器，右键“网站”，点击“添加网站”
 这里，我们添加一个名为Django_API的网站，物理存储路径在C盘根目录的\Django_API下。
-![在这里插入图片描述](https://img-blog.csdnimg.cn/202007151823369.png)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/202007152146109.png)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200715182440296.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3l0bHpxMDIyOA==,size_16,color_FFFFFF,t_70)
 ### 1.2 配置处理程序映射使用fastCGI
 #### 1.2.1 使用图形界面方式
