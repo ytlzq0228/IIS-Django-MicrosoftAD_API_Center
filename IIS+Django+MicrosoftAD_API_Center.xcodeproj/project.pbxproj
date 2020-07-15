@@ -6,10 +6,27 @@
 	objectVersion = 50;
 	objects = {
 
+/* Begin PBXFileReference section */
+		7BBF260124BF0F6500C898DC /* ApiSite */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ApiSite; sourceTree = "<group>"; };
+		7BBF260224BF0F6500C898DC /* manage.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = manage.py; sourceTree = "<group>"; };
+		7BBF260324BF0F6500C898DC /* wfastcgi.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = wfastcgi.py; sourceTree = "<group>"; };
+		7BBF260424BF0F6500C898DC /* web.config */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = web.config; sourceTree = "<group>"; };
+		7BBF260524BF0F6500C898DC /* log */ = {isa = PBXFileReference; lastKnownFileType = folder; path = log; sourceTree = "<group>"; };
+		7BBF260624BF0F6500C898DC /* Python_Program */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Python_Program; sourceTree = "<group>"; };
+		7BBF260724BF0F6600C898DC /* api */ = {isa = PBXFileReference; lastKnownFileType = folder; path = api; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
 /* Begin PBXGroup section */
 		7BBF25F624BF0F4600C898DC = {
 			isa = PBXGroup;
 			children = (
+				7BBF260724BF0F6600C898DC /* api */,
+				7BBF260124BF0F6500C898DC /* ApiSite */,
+				7BBF260524BF0F6500C898DC /* log */,
+				7BBF260224BF0F6500C898DC /* manage.py */,
+				7BBF260624BF0F6500C898DC /* Python_Program */,
+				7BBF260424BF0F6500C898DC /* web.config */,
+				7BBF260324BF0F6500C898DC /* wfastcgi.py */,
 			);
 			sourceTree = "<group>";
 		};
