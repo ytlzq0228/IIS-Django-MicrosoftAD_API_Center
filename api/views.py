@@ -56,7 +56,7 @@ class Microsoft_AD:
 		try:
 			with open("test.bat", "w") as f:
 			#以写模式新建文件（文件名test.bat）
-				f.write("dsquery user -upn %s@csdn.com | dsmod group \"CN=VPNUser_1,OU=VPN,DC=al,DC=com\" -addmbr"%CNname)
+				f.write("dsquery user -upn %s@csdn.com | dsmod group \"CN=VPNUser_1,OU=VPN,DC=csdn,DC=com\" -addmbr"%CNname)
 				#dsquery转换UPN至CNname，dsmod添加组内用户
 			run_result=run_bat()
 		except Exception as err:
@@ -68,7 +68,7 @@ class Microsoft_AD:
 	#添加databaseVPN用户权限
 		try:
 			with open("test.bat", "w") as f:
-				f.write("dsquery user -upn %s@csdn.com | dsmod group \"CN=bussiness1,OU=VPN,DC=al,DC=com\" -addmbr"%CNname)
+				f.write("dsquery user -upn %s@csdn.com | dsmod group \"CN=bussiness1,OU=VPN,DC=csdn,DC=com\" -addmbr"%CNname)
 			run_result=run_bat()
 		except Exception as err:
 			return err
@@ -79,7 +79,7 @@ class Microsoft_AD:
 	#删除databaseVPN用户权限
 		try:
 			with open("test.bat", "w") as f:
-				f.write("dsquery user -upn %s@csdn.com | dsmod group \"CN=bussiness1,OU=VPN,DC=al,DC=com\" -rmmbr"%CNname)
+				f.write("dsquery user -upn %s@csdn.com | dsmod group \"CN=bussiness1,OU=VPN,DC=csdn,DC=com\" -rmmbr"%CNname)
 			run_result=run_bat()
 		except Exception as err:
 			return err
@@ -90,7 +90,7 @@ class Microsoft_AD:
 	#重置AD域账号密码
 		try:
 			with open("test.bat", "w") as f:
-				f.write("dsquery user ou=shenzhen,dc=al,dc=com -upn %s@csdn.com | dsmod user -pwd %s"%(CNname,new_password))
+				f.write("dsquery user ou=shenzhen,DC=csdn,dc=com -upn %s@csdn.com | dsmod user -pwd %s"%(CNname,new_password))
 			run_result=run_bat()
 		except Exception as err:
 			return err
@@ -101,7 +101,7 @@ class Microsoft_AD:
 	#添加database用户组权限
 		try:
 			with open("test.bat", "w") as f:  # 以写模式新建文件（文件名test.bat）
-				f.write("dsquery user -upn %s@csdn.com | dsmod group \"CN=%s,OU=group,DC=al,DC=com\" -addmbr" %(CNname,database_group_name))
+				f.write("dsquery user -upn %s@csdn.com | dsmod group \"CN=%s,OU=group,DC=csdn,DC=com\" -addmbr" %(CNname,database_group_name))
 			run_result=run_bat()
 		except Exception as err:
 			return err
@@ -182,8 +182,6 @@ def get_data(request):
 		
 		if SECRET==None:
 			run_result='SECRET EMPTY'
-			run_result=old_version_code(request)
-			#OA接口全部更新完毕后删除此行代码
 			save_log("run_result:%s"%run_result)
 			return JsonResponse({"msg": "%s"%run_result})
 		save_log("GET SECRET(sha256):%s"%hashlib.sha256(SECRET.encode()).hexdigest())

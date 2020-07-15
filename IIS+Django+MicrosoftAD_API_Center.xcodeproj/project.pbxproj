@@ -14,12 +14,14 @@
 		7BBF260524BF0F6500C898DC /* log */ = {isa = PBXFileReference; lastKnownFileType = folder; path = log; sourceTree = "<group>"; };
 		7BBF260624BF0F6500C898DC /* Python_Program */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Python_Program; sourceTree = "<group>"; };
 		7BBF260724BF0F6600C898DC /* api */ = {isa = PBXFileReference; lastKnownFileType = folder; path = api; sourceTree = "<group>"; };
+		7BBF260824BF3E9E00C898DC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
 		7BBF25F624BF0F4600C898DC = {
 			isa = PBXGroup;
 			children = (
+				7BBF260824BF3E9E00C898DC /* README.md */,
 				7BBF260724BF0F6600C898DC /* api */,
 				7BBF260124BF0F6500C898DC /* ApiSite */,
 				7BBF260524BF0F6500C898DC /* log */,
