@@ -34,7 +34,7 @@ def run_bat():
 		run_result = os.system("test.bat >> %s\log\API_run_log.txt"%IIS_SITE_DIR)
 		os.system("del test.bat")
 	except Exception as err:
-		return err
+		raise err
 	else:
 		return run_result
 
@@ -46,7 +46,7 @@ def save_log(result):
 		f.flush()
 		f.close()
 	except Exception as err:
-		return err
+		raise err
 
 
 class Microsoft_AD:
@@ -59,7 +59,7 @@ def Add_Database__User_Group(CNname):
 		run_result=os.system(run_commadn)
 		save_log(run_commadn)
 	except Exception as err:
-		return err
+		raise err
 	else:
 		return run_result
 		
@@ -70,7 +70,7 @@ def Add_Database__bu1_Group(CNname):
 		run_result=os.system(run_commadn)
 		save_log(run_commadn)
 	except Exception as err:
-		return err
+		raise err
 	else:
 		return run_result
 		
@@ -81,7 +81,7 @@ def remove_Database__bu1_Group(CNname):
 		run_result=os.system(run_commadn)
 		save_log(run_commadn)
 	except Exception as err:
-		return err
+		raise err
 	else:
 		return run_result
 		
@@ -92,7 +92,7 @@ def reset_password(CNname,new_password):
 		run_result=os.system(run_commadn)
 		save_log(run_commadn)
 	except Exception as err:
-		return err
+		raise err
 	else:
 		return run_result
 		
@@ -103,7 +103,7 @@ def suspend_user(CNname):
 		run_result=os.system(run_commadn)
 		save_log(run_commadn)
 	except Exception as err:
-		return err
+		raise err
 	else:
 		return run_result
 
@@ -114,7 +114,7 @@ def add_presto_group(CNname,presto_group_name):
 		run_result=os.system(run_commadn)
 		save_log(run_commadn)
 	except Exception as err:
-		return err
+		raise err
 	else:
 		return run_result
 		
@@ -127,7 +127,7 @@ class Google_Gsuit:
 			#邮箱重置密码
 			save_log("reset_google_password email_address:%s,new_password:%s"%(email_address,new_password))
 		except Exception as err:
-			return err
+			raise err
 		else:
 			return run_result
 			
@@ -139,7 +139,7 @@ class Google_Gsuit:
 			#暂停账号，移动账号至离职人员群组
 			save_log("suspend_user email_address:%s" %(email_address))
 		except Exception as err:
-			return err
+			raise err
 		else:
 			return run_result
 			
@@ -151,7 +151,7 @@ class Add_User_New_employee:
 			#谷歌账号创建
 			save_log("Add_User_New_employee email:%s,mail_password:%s,ad_password:%s,x:%s,m:%s,ou:%s,phone:%s"%(email_address,mail_password,ad_password,family,given,ou,phone))
 		except Exception as err:
-			return err
+			raise err
 		else:
 			return run_result
 
@@ -163,7 +163,7 @@ class Alicloud_API:
 			run_result=Alicloud_sms.SMS.sent_sms(to_address,from_sign,TemplateCode,TemplateParam)
 			save_log("sent_sms to_address:%s,from_sign:%s,TemplateCode:%s,TemplateParam:%s"%(to_address,from_sign,TemplateCode,TemplateParam))
 		except Exception as err:
-			return err
+			raise err
 		else:
 			return run_result
 			
@@ -266,4 +266,4 @@ def get_data(request):
 		return JsonResponse({"msg": "%s"%err})
 	else:
 		save_log("run_result:%s"%run_result)
-		return JsonResponse({"msg": "%s"%run_result})
+		return JsonResponse({"msg": run_result})

@@ -35,7 +35,7 @@ class APIrequest:
 			service = build("admin", "directory_v1", credentials=credentials)
 			results = service.users().get(userKey=userKey_in).execute()
 		except Exception as err:
-			return err
+			raise err
 		else:
 			return results
 			
@@ -45,7 +45,7 @@ class APIrequest:
 			service = build("admin", "directory_v1", credentials=credentials)
 			results = service.users().delete(userKey=userKey_in).execute()
 		except Exception as err:
-			return err
+			raise err
 		else:
 			return results
 			
@@ -57,7 +57,7 @@ class APIrequest:
 			service = build("admin", "directory_v1", credentials=credentials)
 			results = service.users().update(userKey=userKey_in,body=update_data).execute()
 		except Exception as err:
-			return err
+			raise err
 		else:
 			return results
 			
@@ -68,7 +68,7 @@ class APIrequest:
 			service = build("admin", "directory_v1", credentials=credentials)
 			results = service.users().update(userKey=userKey_in,body=update_data).execute()
 		except Exception as err:
-			return err
+			raise err
 		else:
 			return results
 	
@@ -80,7 +80,7 @@ class APIrequest:
 			service = build("admin", "directory_v1", credentials=credentials)
 			results = service.users().update(userKey=userKey_in,body=update_data).execute()
 		except Exception as err:
-			return err
+			raise err
 		else:
 			return results
 			
@@ -100,6 +100,6 @@ class APIrequest:
 			service = build("admin", "directory_v1", credentials=credentials)
 			results = service.users().insert(body=insert_data).execute()
 		except Exception as err:
-			return err
+			raise err
 		else:
 			return results
