@@ -12,11 +12,21 @@ from googleapiclient.discovery import build
 from google.oauth2 import service_account
 import googleapiclient
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SCOPES = ['https://www.googleapis.com/auth/admin.directory.user']
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SERVICE_ACCOUNT_FILE = BASE_DIR+"\\account_manager_service_account.json"
 #授权空间（scope）和授权秘钥
+IIS_SITE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+def save_log(result):
+	try:
+		now = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
+		f = open(IIS_SITE_DIR+"\log\Add_User_log.txt",'a')
+		f.writelines("\n%s:log:%s" %(now,result))
+		f.flush()
+		f.close()
+	except Exception as err:
+		return err
 
 
 def is_Chinese(strs):
@@ -70,8 +80,8 @@ class Microsoft_AD:
 	def add_user(primaryEmail,familyName,givenName,password,orgUnitPath,PhoneNumber):
 		email_fix=primaryEmail.find("@")
 		email_CNname=primaryEmail[:email_fix]
-		primaryEmail=email_CNname+"@csdn.com"
-		#提出email的前缀，并更换后缀为@csdn.com
+		primaryEmail=email_CNname+"@al.com"
+		#提出email的前缀，并更换后缀为@al.com
 		if is_Chinese(familyName+givenName):
 			display_name=familyName+givenName
 		else:
@@ -79,8 +89,9 @@ class Microsoft_AD:
 		#分别处理中英文CNname格式
 		orgUnitPath=orgUnitPath[1:]
 		#去除OU_PATH第一位的/
-		#os.system("dsadd user \"cn=%s,ou=%s,dc=al,dc=com\" -pwd %s -tel %s -upn %s" %(cnname,orgUnitPath,password,PhoneNumber,primaryEmail))
-		print("dsadd user \"cn=%s,ou=%s,dc=csdn,dc=com\" -pwd %s -tel %s -upn %s -display \"%s\" " %(email_CNname,orgUnitPath,password,PhoneNumber,primaryEmail,display_name))
+		#os.system("dsadd user \"cn=%s,ou=%s,DC=csdn,dc=com\" -pwd %s -tel %s -upn %s" %(cnname,orgUnitPath,password,PhoneNumber,primaryEmail))
+		run_result=os.system("dsadd user \"cn=%s,ou=%s,DC=csdn,dc=com\" -pwd %s -tel %s -upn %s -display \"%s\" " %(email_CNname,orgUnitPath,password,PhoneNumber,primaryEmail,display_name))
+		save_log("dsadd user \"cn=%s,ou=%s,DC=csdn,dc=com\" -pwd %s -tel %s -upn %s -display \"%s\" run_result:%s" %(email_CNname,orgUnitPath,password,PhoneNumber,primaryEmail,display_name,run_result))
 		
 
 def main(primaryEmail,mail_password,ad_password,familyName,givenName,orgUnitPath,PhoneNumber):
@@ -100,15 +111,20 @@ def main(primaryEmail,mail_password,ad_password,familyName,givenName,orgUnitPath
 		if get_user_info == "Resource Not Found: userKey":
 			Google_APIrequest.add_user(credentials,primaryEmail,familyName,givenName,mail_password,orgUnitPath,PhoneNumber)#添加google邮箱
 			Microsoft_AD.add_user(primaryEmail,familyName,givenName,ad_password,orgUnitPath,PhoneNumber)#添加AD域账号
-			#print(primaryEmail+" is a new user. Will add new user with this email")
+			save_log(primaryEmail+" is a new user. Will add new user with this email")
 		else:
-			#print(primaryEmail+" is already exist. Try next one.")
+			save_log(primaryEmail+" is already exist. Try next one.")
 			i=i+1
 	get_new_user_info=Google_APIrequest.get_user_data(credentials,primaryEmail)
-	new_user_data={ 'primaryEmail' : get_new_user_info.get('primaryEmail'), 'givenName' : get_new_user_info.get('name').get('givenName'), 'familyName' : get_new_user_info.get('name').get('familyName'), 'orgUnitPath' : get_new_user_info.get('orgUnitPath'), 'recoveryPhone':get_new_user_info.get('recoveryPhone')}
-	json_new_user_data=json.dumps(new_user_data, sort_keys=True, indent=4, separators=(',', ': '), ensure_ascii=False)
-	return(json_new_user_data)
+	save_log(str(get_new_user_info))
+	return primaryEmail
+	#new_user_data={ 'primaryEmail' : get_new_user_info.get('primaryEmail'), 'givenName' : get_new_user_info.get('name').get('givenName'), 'familyName' : get_new_user_info.get('name').get('familyName'), 'orgUnitPath' : get_new_user_info.get('orgUnitPath'), 'recoveryPhone':get_new_user_info.get('recoveryPhone')}
+	#json_new_user_data=json.dumps(new_user_data, sort_keys=True, indent=4, separators=(',', ': '), ensure_ascii=False)
+	#print(json_new_user_data)
 
+
+if __name__ == '__main__':
+    main(sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6],sys.argv[7])
 
 
 
