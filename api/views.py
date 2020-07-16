@@ -50,63 +50,73 @@ def save_log(result):
 
 
 class Microsoft_AD:
-	#微软AD域相关操作
-	def Add_VPN_User_Group(CNname):
-	#添加普通VPN用户权限
-		try:
-			with open("test.bat", "w") as f:
-			#以写模式新建文件（文件名test.bat）
-				f.write("dsquery user -upn %s@csdn.com | dsmod group \"CN=VPNUser_1,OU=VPN,DC=csdn,DC=com\" -addmbr"%CNname)
-				#dsquery转换UPN至CNname，dsmod添加组内用户
-			run_result=run_bat()
-		except Exception as err:
-			return err
-		else:
-			return run_result
-			
-	def Add_VPN_bussiness1_Group(CNname):
-	#添加databaseVPN用户权限
-		try:
-			with open("test.bat", "w") as f:
-				f.write("dsquery user -upn %s@csdn.com | dsmod group \"CN=bussiness1,OU=VPN,DC=csdn,DC=com\" -addmbr"%CNname)
-			run_result=run_bat()
-		except Exception as err:
-			return err
-		else:
-			return run_result
-			
-	def remove_VPN_bussiness1_Group(CNname):
-	#删除databaseVPN用户权限
-		try:
-			with open("test.bat", "w") as f:
-				f.write("dsquery user -upn %s@csdn.com | dsmod group \"CN=bussiness1,OU=VPN,DC=csdn,DC=com\" -rmmbr"%CNname)
-			run_result=run_bat()
-		except Exception as err:
-			return err
-		else:
-			return run_result
-			
-	def reset_password(CNname,new_password):
-	#重置AD域账号密码
-		try:
-			with open("test.bat", "w") as f:
-				f.write("dsquery user ou=shenzhen,DC=csdn,dc=com -upn %s@csdn.com | dsmod user -pwd %s"%(CNname,new_password))
-			run_result=run_bat()
-		except Exception as err:
-			return err
-		else:
-			return run_result
-	
-	def add_database_group(CNname,database_group_name):
-	#添加database用户组权限
-		try:
-			with open("test.bat", "w") as f:  # 以写模式新建文件（文件名test.bat）
-				f.write("dsquery user -upn %s@csdn.com | dsmod group \"CN=%s,OU=group,DC=csdn,DC=com\" -addmbr" %(CNname,database_group_name))
-			run_result=run_bat()
-		except Exception as err:
-			return err
-		else:
-			return run_result
+#微软AD域相关操作
+def Add_Database__User_Group(CNname):
+#添加普通Database_用户权限
+	try:
+		run_commadn="dsquery user -upn %s@csdn.com | dsmod group \"CN=Database_User_1,OU=Database_,dc=csdn,DC=com\" -addmbr"%CNname
+		#dsquery转换UPN至CNname，dsmod添加组内用户
+		run_result=os.system(run_commadn)
+		save_log(run_commadn)
+	except Exception as err:
+		return err
+	else:
+		return run_result
+		
+def Add_Database__bu1_Group(CNname):
+#添加数据库Database_用户权限
+	try:
+		run_commadn="dsquery user -upn %s@csdn.com | dsmod group \"CN=bu1,OU=Database_,dc=csdn,DC=com\" -addmbr"%CNname
+		run_result=os.system(run_commadn)
+		save_log(run_commadn)
+	except Exception as err:
+		return err
+	else:
+		return run_result
+		
+def remove_Database__bu1_Group(CNname):
+#删除数据库Database_用户权限
+	try:
+		run_commadn="dsquery user -upn %s@csdn.com | dsmod group \"CN=bu1,OU=Database_,dc=csdn,DC=com\" -rmmbr"%CNname
+		run_result=os.system(run_commadn)
+		save_log(run_commadn)
+	except Exception as err:
+		return err
+	else:
+		return run_result
+		
+def reset_password(CNname,new_password):
+#重置AD域账号密码
+	try:
+		run_commadn="dsquery user ou=shenzhen,dc=csdn,dc=com -upn %s@csdn.com | dsmod user -pwd %s"%(CNname,new_password)
+		run_result=os.system(run_commadn)
+		save_log(run_commadn)
+	except Exception as err:
+		return err
+	else:
+		return run_result
+		
+def suspend_user(CNname):
+#暂停AD域账号
+	try:
+		run_commadn="dsquery user ou=shenzhen,dc=csdn,dc=com -upn %s@csdn.com | dsmod user -disabled yes"%(CNname)
+		run_result=os.system(run_commadn)
+		save_log(run_commadn)
+	except Exception as err:
+		return err
+	else:
+		return run_result
+
+def add_presto_group(CNname,presto_group_name):
+#添加presto用户组权限
+	try:
+		run_commadn="dsquery user -upn %s@csdn.com | dsmod group \"CN=%s,OU=group,dc=csdn,DC=com\" -addmbr" %(CNname,presto_group_name)
+		run_result=os.system(run_commadn)
+		save_log(run_commadn)
+	except Exception as err:
+		return err
+	else:
+		return run_result
 		
 class Google_Gsuit:
 	#Google_Gsuit类相关操作
@@ -201,15 +211,15 @@ def get_data(request):
 		run_result='Invalid API_POST_METHOD code'
 		if API_POST_METHOD=='201909230001':
 			name = request.POST.get("name")
-			run_result=Microsoft_AD.Add_VPN_User_Group(name)
+			run_result=Microsoft_AD.Add_Database__User_Group(name)
 		
 		if API_POST_METHOD=='201909270001':
 			name = request.POST.get("name")
-			run_result=Microsoft_AD.Add_VPN_bussiness1_Group(name)
+			run_result=Microsoft_AD.Add_Database__bussiness1_Group(name)
 		
 		if API_POST_METHOD=='201909270002':
 			name = request.POST.get("name")
-			run_result=Microsoft_AD.remove_VPN_bussiness1_Group(name)
+			run_result=Microsoft_AD.remove_Database__bussiness1_Group(name)
 		
 		if API_POST_METHOD=='201910280001':
 			name = request.POST.get("name")
