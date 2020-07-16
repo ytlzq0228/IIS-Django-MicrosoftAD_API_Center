@@ -1,5 +1,5 @@
 #coding=utf-8
-import datetime
+from datetime import datetime
 import os
 import re
 import sys
@@ -11,6 +11,7 @@ import json
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
 import googleapiclient
+import wechat_webhook
 
 SCOPES = ['https://www.googleapis.com/auth/admin.directory.user']
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -111,6 +112,7 @@ def main(primaryEmail,mail_password,ad_password,familyName,givenName,orgUnitPath
 		if get_user_info == "Resource Not Found: userKey":
 			Google_APIrequest.add_user(credentials,primaryEmail,familyName,givenName,mail_password,orgUnitPath,PhoneNumber)#添加google邮箱
 			Microsoft_AD.add_user(primaryEmail,familyName,givenName,ad_password,orgUnitPath,PhoneNumber)#添加AD域账号
+			wechat_webhook.wechatwork_robot(primaryEmail,familyName,givenName,ad_password,mail_password,orgUnitPath,PhoneNumber)#调用企业微信向IT和HR推送新员工账号信息
 			save_log(primaryEmail+" is a new user. Will add new user with this email")
 		else:
 			save_log(primaryEmail+" is already exist. Try next one.")
