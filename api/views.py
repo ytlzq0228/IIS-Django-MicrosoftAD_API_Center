@@ -17,6 +17,8 @@ sys.path.append(r"%s\Python_Program"%IIS_SITE_DIR)
 import API_Add_User
 import Alicloud_sms
 import Gsuit_api_request
+from Microsoft_AD_Request import Microsoft_AD
+from save_log import save_log 
 
 
 logger = logging.getLogger("sourceDns.webdns.views")
@@ -38,85 +40,7 @@ def run_bat():
 	else:
 		return run_result
 
-def save_log(result):
-	try:
-		now = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
-		f = open(IIS_SITE_DIR+"\log\API_run_log.txt",'a')
-		f.writelines("\n%s:log:%s" %(now,result))
-		f.flush()
-		f.close()
-	except Exception as err:
-		raise err
 
-
-class Microsoft_AD:
-#微软AD域相关操作
-def Add_Database__User_Group(CNname):
-#添加普通Database_用户权限
-	try:
-		run_commadn="dsquery user -upn %s@csdn.com | dsmod group \"CN=Database_User_1,OU=Database_,dc=csdn,DC=com\" -addmbr"%CNname
-		#dsquery转换UPN至CNname，dsmod添加组内用户
-		run_result=os.system(run_commadn)
-		save_log(run_commadn)
-	except Exception as err:
-		raise err
-	else:
-		return run_result
-		
-def Add_Database__bu1_Group(CNname):
-#添加数据库Database_用户权限
-	try:
-		run_commadn="dsquery user -upn %s@csdn.com | dsmod group \"CN=bu1,OU=Database_,dc=csdn,DC=com\" -addmbr"%CNname
-		run_result=os.system(run_commadn)
-		save_log(run_commadn)
-	except Exception as err:
-		raise err
-	else:
-		return run_result
-		
-def remove_Database__bu1_Group(CNname):
-#删除数据库Database_用户权限
-	try:
-		run_commadn="dsquery user -upn %s@csdn.com | dsmod group \"CN=bu1,OU=Database_,dc=csdn,DC=com\" -rmmbr"%CNname
-		run_result=os.system(run_commadn)
-		save_log(run_commadn)
-	except Exception as err:
-		raise err
-	else:
-		return run_result
-		
-def reset_password(CNname,new_password):
-#重置AD域账号密码
-	try:
-		run_commadn="dsquery user ou=shenzhen,dc=csdn,dc=com -upn %s@csdn.com | dsmod user -pwd %s"%(CNname,new_password)
-		run_result=os.system(run_commadn)
-		save_log(run_commadn)
-	except Exception as err:
-		raise err
-	else:
-		return run_result
-		
-def suspend_user(CNname):
-#暂停AD域账号
-	try:
-		run_commadn="dsquery user ou=shenzhen,dc=csdn,dc=com -upn %s@csdn.com | dsmod user -disabled yes"%(CNname)
-		run_result=os.system(run_commadn)
-		save_log(run_commadn)
-	except Exception as err:
-		raise err
-	else:
-		return run_result
-
-def add_presto_group(CNname,presto_group_name):
-#添加presto用户组权限
-	try:
-		run_commadn="dsquery user -upn %s@csdn.com | dsmod group \"CN=%s,OU=group,dc=csdn,DC=com\" -addmbr" %(CNname,presto_group_name)
-		run_result=os.system(run_commadn)
-		save_log(run_commadn)
-	except Exception as err:
-		raise err
-	else:
-		return run_result
 		
 class Google_Gsuit:
 	#Google_Gsuit类相关操作
